@@ -1,0 +1,182 @@
+/* Dalen Prize Carousel - Horizontal Scrolling CSS */
+
+.dpc-carousel-container {
+  display: grid;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Navigation Arrows */
+.dpc-carousel-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.dpc-carousel-nav__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(220, 118, 51, 0.9);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  &:hover {
+    background-color: #c0661f;
+  }
+}
+
+.dpc-carousel-nav__btn:disabled {
+  background-color: rgba(220, 118, 51, 0.5);
+}
+
+.dpc-carousel-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.dpc-carousel-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.dpc-carousel-track {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Prize Card Styles */
+.dpc-prize-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 0 0 auto; /* Don't grow, don't shrink, auto width */
+  width: 300px; /* Fixed width for consistent card sizing */
+  min-width: 300px; /* Ensure minimum width */
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* overflow: hidden; */
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  padding: 1rem 0;
+}
+
+.dpc-prize-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Prize Header */
+
+.dpc-prize-header {
+  text-align: center;
+  padding: 1rem;
+}
+
+.dpc-prize-header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+}
+
+.dpc-prize-header-sub-title {
+  display: block;
+  font-size: 1rem;
+}
+
+/* Prize Image */
+.dpc-prize-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.dpc-prize-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Prize Meta Information */
+.dpc-prize-meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  padding: 1rem;
+}
+
+.dpc-prize-meta > * {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dpc-prize-meta__label {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.dpc-prize-meta__value {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* CTA Button */
+.dpc-prize-cta {
+  margin-top: auto;
+}
+
+.dpc-prize-cta__button {
+  /* Styling to follow pending design changes */
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.dpc-prize-cta__button:hover {
+  /* Styling to follow pending design changes */
+  color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dpc-prize-card {
+    width: 280px;
+    min-width: 280px;
+  }
+
+  .dpc-prize-content {
+    padding: 1rem;
+  }
+
+  .dpc-prize-title {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dpc-prize-card {
+    width: 260px;
+    min-width: 260px;
+  }
+}
