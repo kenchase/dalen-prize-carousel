@@ -165,7 +165,7 @@ For support, please create an issue on GitHub or contact [Dalen Design](https://
 
 ## Changelog
 
-### 1.0.0
+### 0.1
 
 - Initial release
 - Basic carousel functionality
