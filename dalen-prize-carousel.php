@@ -101,8 +101,6 @@ class Dalen_Prize_Carousel
     <?php
     }
 
-
-
     /**
      * Initialize shortcode
      */
@@ -117,8 +115,8 @@ class Dalen_Prize_Carousel
     public function render_carousel_shortcode($atts)
     {
         $atts = shortcode_atts(array(
-            'slides_to_show' => 3,
-            'show_arrows' => 'true',
+            'title' => '2025 Prize List',
+            'text' => 'Check out the incredible prizes generously donated by our partners. Your support matters.',
         ), $atts, 'prize_carousel');
 
         // Get prizes
@@ -132,20 +130,25 @@ class Dalen_Prize_Carousel
         ob_start();
 
     ?>
-        <div class="dpc-carousel-container"
-            data-slides-to-show="<?php echo esc_attr($atts['slides_to_show']); ?>"
-            data-show-arrows="<?php echo esc_attr($atts['show_arrows']); ?>">
+        <div class="dpc-carousel-container">
 
-            <?php if ($atts['show_arrows'] === 'true'): ?>
+            <h2 class="dpc-carousel-title"><?php echo esc_attr($atts['title']); ?></h2>
+
+            <div class="dpc-carousel-content-wrapper">
+
+                <div class="dpc-carousel-intro">
+                    <p><?php echo esc_attr($atts['text']); ?></p>
+                </div>
+
                 <div class="dpc-carousel-nav">
-                    <button class="dpc-carousel-nav__btn dpc-carousel-nav__btn--prev" aria-label="<?php _e('Previous slide', 'dalen-prize-carousel'); ?>">
-                        <span>&lt;</span>
+                    <button type="button" class="dpc-carousel-nav__btn dpc-carousel-nav__btn--prev" aria-label="<?php _e('Previous slide', 'dalen-prize-carousel'); ?>">
+                        <span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span>
                     </button>
-                    <button class="dpc-carousel-nav__btn dpc-carousel-nav__btn--next" aria-label="<?php _e('Next slide', 'dalen-prize-carousel'); ?>">
-                        <span>&gt;</span>
+                    <button type="button" class="dpc-carousel-nav__btn dpc-carousel-nav__btn--next" aria-label="<?php _e('Next slide', 'dalen-prize-carousel'); ?>">
+                        <span class="dashicons dashicons-arrow-right-alt2" aria-hidden="true"></span>
                     </button>
                 </div>
-            <?php endif; ?>
+            </div>
 
             <div class="dpc-carousel-wrapper">
                 <div class="dpc-carousel-track">
@@ -186,7 +189,7 @@ class Dalen_Prize_Carousel
     private function render_prize_card($prize)
     {
         // Get ACF fields (customize these field names based on your ACF setup)
-        $prize_title = get_field('prize_title', $prize->ID);
+        $prize_title = get_field('prize_title', $prize->ID) ?: $prize->post_title;
         $prize_sub_title = get_field('prize_sub_title', $prize->ID);
         $prize_image = get_field('prize_image', $prize->ID);
         $prize_sponsor_name = get_field('prize_sponsor_name', $prize->ID);
@@ -194,14 +197,27 @@ class Dalen_Prize_Carousel
         $prize_cta_label = get_field('prize_cta_label', $prize->ID) ?: __('Enter Now', 'dalen-prize-carousel');
         $prize_cta_link = get_field('prize_cta_link', $prize->ID);
 
+        // Format value as currency
+        if ($prize_value && class_exists('NumberFormatter')) {
+            $fmt = new NumberFormatter('en_CA', NumberFormatter::CURRENCY);
+            $fmt->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, 0);
+            $prize_value_cur = $fmt->formatCurrency($prize_value, "CAD");
+        } else {
+            $prize_value_cur = $prize_value ? '$' . number_format($prize_value) : '';
+        }
+
     ?>
         <div class="dpc-prize-card">
 
-            <div class="dpc-prize-header">
-                <h3 class="dpc-prize-header-title"><?php echo esc_html($prize_title); ?>
-                    <span class="dpc-prize-header-sub-title"><?php echo esc_html($prize_sub_title); ?></span>
-                </h3>
-            </div>
+            <?php if ($prize_title): ?>
+                <div class="dpc-prize-header">
+                    <h3 class="dpc-prize-header-title"><?php echo esc_html($prize_title); ?>
+                        <?php if ($prize_sub_title): ?>
+                            <span class="dpc-prize-header-sub-title"><?php echo esc_html($prize_sub_title); ?></span>
+                        <?php endif; ?>
+                    </h3>
+                </div>
+            <?php endif; ?>
 
             <?php if ($prize_image): ?>
                 <div class="dpc-prize-image">
@@ -217,10 +233,10 @@ class Dalen_Prize_Carousel
                     </div>
                 <?php endif; ?>
 
-                <?php if ($prize_value): ?>
+                <?php if ($prize_value_cur): ?>
                     <div class="dpc-prize-meta__item">
                         <span class="dpc-prize-meta__label"><?php _e('Value:', 'dalen-prize-carousel'); ?></span>
-                        <span class="dpc-prize-meta__value"><?php echo esc_html($prize_value); ?></span>
+                        <span class="dpc-prize-meta__value"><?php echo esc_html($prize_value_cur); ?></span>
                     </div>
                 <?php endif; ?>
             </div>
@@ -228,7 +244,12 @@ class Dalen_Prize_Carousel
             <?php if ($prize_cta_link): ?>
                 <div class="dpc-prize-cta">
                     <a href="<?php echo esc_url($prize_cta_link); ?>" class="dpc-prize-cta__button">
-                        <?php echo esc_html($prize_cta_label); ?> →
+                        <span><?php echo esc_html($prize_cta_label); ?></span>
+                        <?php if (wp_get_theme()->get_template() === 'Divi'): ?>
+                            <span class="et-pb-icon" aria-hidden="true">&#x24;</span>
+                        <?php else: ?>
+                            <span aria-hidden="true">→</span>
+                        <?php endif; ?>
                     </a>
                 </div>
             <?php endif; ?>

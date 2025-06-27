@@ -1,22 +1,26 @@
 # Dalen Prize Carousel
 
-A custom WordPress plugin for displaying prize information in a horizontal scrolling carousel format with ACF integration. Developed by Ken Chase for Dalen Design.
+A custom WordPress plugin for displaying prize information in a horizontal scrolling carousel format with ACF integration.
 
 ## Features
 
-- 🎠 **Horizontal Scrolling Carousel** - Smooth card-by-card navigation
+- 🎠 **Horizontal Scrolling Carousel** - Smooth card-by-card navigation with custom scrollbars
 - 🎯 **ACF Integration** - Fully integrated with Advanced Custom Fields
 - ⌨️ **Keyboard Navigation** - Arrow key support for accessibility
 - 📱 **Mobile Friendly** - Touch scrolling and responsive design
-- 🎨 **BEM CSS Architecture** - Clean, maintainable CSS structure
+- 🎨 **Modern CSS Architecture** - CSS custom properties and BEM naming convention
 - ⚡ **Vanilla JavaScript** - No external dependencies
-- 🔧 **Divi Compatible** - Works seamlessly with Divi themes
+- 🔧 **Divi Optimized** - Enhanced experience with Divi themes (not required)
+- 💰 **Currency Formatting** - Automatic Canadian dollar formatting
+- 🌐 **Internationalization Ready** - Translation support
 
 ## Requirements
 
 - WordPress 6.0+
 - PHP 7.4+
 - Advanced Custom Fields (ACF) plugin
+
+**Note:** While Divi is not required, the plugin provides an enhanced experience when used with Divi themes, including optimized icon usage and styling integration.
 
 ## Installation
 
@@ -35,12 +39,12 @@ Use ACF to create a custom post type called `prize` (or update the post type nam
 
 Set up the following ACF fields for your prize post type:
 
-- `prize_title` (Text) - Main prize title
+- `prize_title` (Text) - Main prize title (fallback to post title if empty)
 - `prize_sub_title` (Text) - Prize subtitle
 - `prize_image` (Image) - Prize image
 - `prize_sponsor_name` (Text) - Sponsor name
-- `prize_value` (Text) - Prize value
-- `prize_cta_label` (Text) - Call-to-action button text
+- `prize_value` (Number) - Prize value (will be formatted as CAD currency)
+- `prize_cta_label` (Text) - Call-to-action button text (default: "Enter Now")
 - `prize_cta_link` (URL) - Call-to-action button link
 
 ### 3. Update Post Type Name
@@ -53,21 +57,20 @@ If you use a different post type name, update line 147 in `dalen-prize-carousel.
 
 ## Usage
 
-### Shortcode
+### Basic Shortcode
 
-Display the carousel anywhere using the shortcode:
+Display the carousel with default settings:
 
 ```php
 [prize_carousel]
 ```
 
-### Shortcode Attributes
+### Shortcode with Custom Content
 
-- `slides_to_show` - Number of slides to show (default: 3)
-- `show_arrows` - Show navigation arrows (default: true)
+Customize the title and introductory text:
 
 ```php
-[prize_carousel slides_to_show="4" show_arrows="false"]
+[prize_carousel title="2025 Prize List" text="Check out the incredible prizes generously donated by our partners. Your support matters."]
 ```
 
 ### Template Function
@@ -77,9 +80,19 @@ Use in theme files:
 ```php
 <?php echo dpc_render_carousel(); ?>
 
-// With attributes
-<?php echo dpc_render_carousel(['slides_to_show' => 4]); ?>
+// With custom attributes
+<?php echo dpc_render_carousel([
+    'title' => 'Custom Prize Title',
+    'text' => 'Custom introductory text'
+]); ?>
 ```
+
+## Shortcode Attributes
+
+| Attribute | Type   | Default                              | Description         |
+| --------- | ------ | ------------------------------------ | ------------------- |
+| `title`   | string | "2025 Prize List"                    | Main carousel title |
+| `text`    | string | "Check out the incredible prizes..." | Introductory text   |
 
 ## File Structure
 
@@ -88,21 +101,59 @@ dalen-prize-carousel/
 ├── dalen-prize-carousel.php    # Main plugin file
 ├── assets/
 │   ├── css/
-│   │   └── carousel.css        # Carousel styles
+│   │   └── carousel.css        # Carousel styles with CSS custom properties
 │   └── js/
-│       └── carousel.js         # Carousel functionality
+│       └── carousel.js         # Vanilla JavaScript functionality
 ├── languages/                  # Translation files (future)
 ├── README.md
 └── .gitignore
 ```
 
+## Design Features
+
+### Visual Design
+
+- Clean, modern card-based layout
+- Smooth hover effects and transitions
+- Custom orange color scheme with CSS variables
+- Professional typography hierarchy
+- Responsive breakpoints for mobile devices
+
+### Navigation
+
+- Circular navigation buttons with WordPress Dashicons
+- Keyboard navigation with arrow keys
+- Touch-friendly scrolling on mobile
+- Custom scrollbar styling with theme colors
+
+### Currency Display
+
+- Automatic Canadian dollar formatting using PHP's NumberFormatter
+- Graceful fallback for environments without NumberFormatter
+- Clean, readable price display
+
 ## Customization
 
-### CSS Customization
+### CSS Custom Properties
 
-The carousel uses BEM naming convention. Key CSS classes:
+The carousel uses CSS custom properties for easy theming:
+
+```css
+:root {
+  --dpc-colour-neutral-400: #444444;
+  --dpc-colour-neutral-500: #464646;
+  --dpc-colour-orange-500: #d9571d;
+  --dpc-colour-white: #fff;
+  --dpc-font-size-xs: 0.875rem;
+  --dpc-spacing-md: 1rem;
+  /* ... and more */
+}
+```
+
+### Key CSS Classes (BEM Convention)
 
 - `.dpc-carousel-container` - Main container
+- `.dpc-carousel-title` - Carousel title
 - `.dpc-carousel-nav__btn` - Navigation buttons
 - `.dpc-prize-card` - Individual prize cards
 - `.dpc-prize-header` - Prize title area
@@ -110,7 +161,7 @@ The carousel uses BEM naming convention. Key CSS classes:
 - `.dpc-prize-meta` - Prize metadata (sponsor, value)
 - `.dpc-prize-cta__button` - Call-to-action button
 
-### JavaScript Customization
+### JavaScript API
 
 The carousel class provides public methods:
 
@@ -124,6 +175,24 @@ carousel.goToCard(2);
 // Get current card index
 const currentIndex = carousel.getCurrentIndex();
 ```
+
+## Theme Compatibility
+
+### Divi Theme Integration
+
+When used with Divi themes, the plugin automatically:
+
+- Uses Divi's icon font for enhanced visual consistency
+- Integrates with Divi's design system
+- Provides optimized styling for Divi layouts
+
+### Other Themes
+
+The plugin works with any WordPress theme and includes:
+
+- Fallback icons when Divi is not present
+- Self-contained styling that doesn't conflict with theme styles
+- Responsive design that adapts to any container width
 
 ## Browser Support
 
@@ -145,7 +214,7 @@ const currentIndex = carousel.getCurrentIndex();
 1. Clone the repository into your WordPress plugins directory
 2. Create sample prize posts with ACF fields
 3. Test the carousel functionality
-4. Customize CSS and JavaScript as needed
+4. Customize CSS variables for your design needs
 
 ## Contributing
 
@@ -165,10 +234,14 @@ For support, please create an issue on GitHub or contact [Dalen Design](https://
 
 ## Changelog
 
-### 0.1
+### 1.0.0
 
 - Initial release
-- Basic carousel functionality
-- ACF integration
-- Responsive design
-- Keyboard navigation
+- Horizontal scrolling carousel with smooth navigation
+- ACF integration with fallback support
+- Canadian currency formatting
+- Responsive design with mobile optimization
+- Divi theme integration with fallbacks
+- Keyboard navigation support
+- CSS custom properties for easy theming
+- WordPress Dashicons integration
