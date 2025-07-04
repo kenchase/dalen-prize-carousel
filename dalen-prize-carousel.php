@@ -4,7 +4,7 @@
  * Plugin Name: Dalen Prize Carousel
  * Plugin URI: https://yoursite.com/
  * Description: A custom carousel plugin for displaying prize information with ACF integration.
- * Version: 1.0.0
+ * Version: 1.2.0
  * Author: Dalen Design
  * Author URI: https://www.dalendesign.com/
  * License: GPL v2 or later
