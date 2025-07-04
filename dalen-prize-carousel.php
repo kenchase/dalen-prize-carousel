@@ -152,7 +152,7 @@ class Dalen_Prize_Carousel
             </div>
 
             <div class="dpc-carousel-wrapper">
-                <div class="dpc-carousel-track">
+                <div class="dpc-carousel-track" data-carousel-track>
                     <?php foreach ($prizes as $prize): ?>
                         <?php $this->render_prize_card($prize); ?>
                     <?php endforeach; ?>
@@ -223,6 +223,7 @@ class Dalen_Prize_Carousel
         $prize_sub_title = get_field('prize_sub_title', $prize->ID);
         $prize_image = get_field('prize_image', $prize->ID);
         $prize_sponsor_name = get_field('prize_sponsor_name', $prize->ID);
+        $prize_sponsor_link = get_field('prize_sponsor_link', $prize->ID);
         $prize_value = get_field('prize_value', $prize->ID);
         $prize_cta_label = get_field('prize_cta_label', $prize->ID) ?: __('Enter Now', 'dalen-prize-carousel');
         $prize_cta_link = get_field('prize_cta_link', $prize->ID);
@@ -237,7 +238,7 @@ class Dalen_Prize_Carousel
         }
 
     ?>
-        <div class="dpc-prize-card">
+        <div class="dpc-prize-card" data-carousel-item>
 
             <?php if ($prize_title): ?>
                 <div class="dpc-prize-header">
@@ -259,7 +260,11 @@ class Dalen_Prize_Carousel
                 <?php if ($prize_sponsor_name): ?>
                     <div class="dpc-prize-meta__item">
                         <span class="dpc-prize-meta__label"><?php _e('Sponsor:', 'dalen-prize-carousel'); ?></span>
-                        <span class="dpc-prize-meta__value"><?php echo esc_html($prize_sponsor_name); ?></span>
+                        <?php if ($prize_sponsor_link): ?>
+                            <span class="dpc-prize-meta__value"><a href="<?php echo esc_url($prize_sponsor_link) ?>" target="_blank" rel="noopener"><?php echo esc_html($prize_sponsor_name); ?></a></span>
+                        <?php else: ?>
+                            <span class="dpc-prize-meta__value"><?php echo esc_html($prize_sponsor_name); ?></span>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
 

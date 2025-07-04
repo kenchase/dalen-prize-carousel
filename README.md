@@ -264,6 +264,10 @@ For support, please create an issue on GitHub or contact [Dalen Design](https://
 
 ## Changelog
 
+### 1.2.0
+
+- **NEW:** Added optional sponsor link
+
 ### 1.1.0
 
 - **NEW:** Added `orderby` shortcode attribute for flexible prize sorting
