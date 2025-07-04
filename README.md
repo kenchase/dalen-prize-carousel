@@ -59,18 +59,18 @@ If you use a different post type name, update line 147 in `dalen-prize-carousel.
 
 ### Basic Shortcode
 
-Display the carousel with default settings:
+Display the carousel with default settings (sorted by highest prize value):
 
 ```php
 [prize_carousel]
 ```
 
-### Shortcode with Custom Content
+### Shortcode with Custom Content and Sorting
 
-Customize the title and introductory text:
+Customize the title, introductory text, and sorting method:
 
 ```php
-[prize_carousel title="2025 Prize List" text="Check out the incredible prizes generously donated by our partners. Your support matters."]
+[prize_carousel title="2025 Prize List" text="Check out the incredible prizes generously donated by our partners. Your support matters." orderby="title"]
 ```
 
 ### Template Function
@@ -83,16 +83,46 @@ Use in theme files:
 // With custom attributes
 <?php echo dpc_render_carousel([
     'title' => 'Custom Prize Title',
-    'text' => 'Custom introductory text'
+    'text' => 'Custom introductory text',
+    'orderby' => 'prizevalue'
 ]); ?>
 ```
 
 ## Shortcode Attributes
 
-| Attribute | Type   | Default                              | Description         |
-| --------- | ------ | ------------------------------------ | ------------------- |
-| `title`   | string | "2025 Prize List"                    | Main carousel title |
-| `text`    | string | "Check out the incredible prizes..." | Introductory text   |
+| Attribute | Type   | Default                              | Description               |
+| --------- | ------ | ------------------------------------ | ------------------------- |
+| `title`   | string | "2025 Prize List"                    | Main carousel title       |
+| `text`    | string | "Check out the incredible prizes..." | Introductory text         |
+| `orderby` | string | "prizevalue"                         | Sorting method for prizes |
+
+### Sorting Options (orderby)
+
+| Value        | Description                        | Order                     |
+| ------------ | ---------------------------------- | ------------------------- |
+| `prizevalue` | Sort by prize value                | Highest to lowest (DESC)  |
+| `title`      | Sort alphabetically by prize title | A to Z (ASC)              |
+| `menu_order` | Use WordPress menu order           | Admin-defined order (ASC) |
+| `date`       | Sort by publication date           | Newest first (DESC)       |
+
+### Sorting Examples
+
+```php
+<!-- Display highest value prizes first (default) -->
+[prize_carousel]
+
+<!-- Sort prizes alphabetically -->
+[prize_carousel orderby="title"]
+
+<!-- Use admin drag-and-drop order -->
+[prize_carousel orderby="menu_order"]
+
+<!-- Show newest prizes first -->
+[prize_carousel orderby="date"]
+
+<!-- Custom title with specific sorting -->
+[prize_carousel title="Premium Prizes" orderby="prizevalue"]
+```
 
 ## File Structure
 
@@ -233,6 +263,17 @@ This project is licensed under the GPL v2 or later - see the plugin header for d
 For support, please create an issue on GitHub or contact [Dalen Design](https://www.dalendesign.com/).
 
 ## Changelog
+
+### 1.1.0
+
+- **NEW:** Added `orderby` shortcode attribute for flexible prize sorting
+- **NEW:** Sort by prize value (highest to lowest) - now the default
+- **NEW:** Sort alphabetically by prize title
+- **NEW:** Sort by WordPress menu order (admin drag-and-drop)
+- **NEW:** Sort by publication date (newest first)
+- **IMPROVED:** Enhanced query safety with meta field existence checks
+- **IMPROVED:** More robust error handling for sorting operations
+- **IMPROVED:** Better parameter naming consistency throughout codebase
 
 ### 1.0.0
 

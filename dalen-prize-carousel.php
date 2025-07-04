@@ -117,10 +117,11 @@ class Dalen_Prize_Carousel
         $atts = shortcode_atts(array(
             'title' => '2025 Prize List',
             'text' => 'Check out the incredible prizes generously donated by our partners. Your support matters.',
+            'orderby' => 'prizevalue',
         ), $atts, 'prize_carousel');
 
         // Get prizes
-        $prizes = $this->get_prizes();
+        $prizes = $this->get_prizes($atts['orderby']);
 
         if (empty($prizes)) {
             return '<p>' . __('No prizes found.', 'dalen-prize-carousel') . '</p>';
@@ -167,18 +168,47 @@ class Dalen_Prize_Carousel
     /**
      * Get all prizes
      */
-    private function get_prizes()
+    private function get_prizes($orderby)
     {
-        // Since ACF will handle the custom post type,
-        // you'll need to update this with your actual post type name
-        // For example, if ACF creates 'prize' post type:
-        $args = array(
-            'post_type' => 'prize', // Update this to match your ACF post type
+        $base_args = array(
+            'post_type' => 'prize',
             'post_status' => 'publish',
             'posts_per_page' => -1,
-            'orderby' => 'menu_order',
-            'order' => 'ASC',
         );
+
+        switch ($orderby) {
+            case 'prizevalue':
+                $args = array_merge($base_args, array(
+                    'meta_query' => array(
+                        array(
+                            'key' => 'prize_value',
+                            'compare' => 'EXISTS',
+                        ),
+                    ),
+                    'meta_key' => 'prize_value',
+                    'orderby' => 'meta_value_num',
+                    'order' => 'DESC',
+                ));
+                break;
+            case 'title':
+                $args = array_merge($base_args, array(
+                    'orderby' => 'title',
+                    'order' => 'ASC',
+                ));
+                break;
+            case 'menu_order':
+                $args = array_merge($base_args, array(
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC',
+                ));
+                break;
+            default: // 'date' or any other value
+                $args = array_merge($base_args, array(
+                    'orderby' => 'date',
+                    'order' => 'DESC',
+                ));
+                break;
+        }
 
         return get_posts($args);
     }
