@@ -99,7 +99,7 @@
 /* Prize Card Styles */
 .dpc-prize-card {
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: 14ch 1fr 10ch auto;
   gap: var(--dpc-spacing-md);
   flex: 0 0 auto; /* Don't grow, don't shrink, auto width */
   width: 300px; /* Fixed width for consistent card sizing */
@@ -113,7 +113,7 @@
 .dpc-prize-header {
   text-align: center;
   padding: var(--dpc-spacing-md);
-  min-height: 13ch;
+  min-height: 14ch;
 }
 
 .dpc-prize-header-title {
