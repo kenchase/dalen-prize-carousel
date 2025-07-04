@@ -274,6 +274,7 @@ For support, please create an issue on GitHub or contact [Dalen Design](https://
 - **IMPROVED:** Enhanced query safety with meta field existence checks
 - **IMPROVED:** More robust error handling for sorting operations
 - **IMPROVED:** Better parameter naming consistency throughout codebase
+- **IMPROVED:** Layout: Prize Cards sections are of equal height for reasonable amounts of content
 
 ### 1.0.0
 

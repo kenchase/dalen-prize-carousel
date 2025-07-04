@@ -24,11 +24,10 @@
 }
 
 .dpc-carousel-container {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: var(--dpc-spacing-3xl);
-  position: relative;
   width: 100%;
-  overflow: hidden;
 }
 
 .dpc-carousel-title {
@@ -79,7 +78,9 @@
   background-color: rgba(220, 118, 51, 0.5);
 }
 
-.dpc-carousel-wrapper {
+.dpc-carousel-track {
+  display: flex;
+  gap: var(--dpc-spacing-md);
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -89,25 +90,19 @@
 }
 
 @supports not selector(::-webkit-scrollbar) {
-  .dpc-carousel-wrapper {
+  .dpc-carousel-track {
     scrollbar-width: auto;
     scrollbar-color: var(--dpc-colour-orange-500) var(--dpc-colour-white);
   }
 }
 
-.dpc-carousel-track {
-  display: flex;
-  gap: var(--dpc-spacing-md);
-}
-
 /* Prize Card Styles */
 .dpc-prize-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 10ch 1fr 10ch auto;
   gap: var(--dpc-spacing-md);
   flex: 0 0 auto; /* Don't grow, don't shrink, auto width */
   width: 300px; /* Fixed width for consistent card sizing */
-  min-width: 300px; /* Ensure minimum width */
   background: var(--dpc-colour-white);
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -182,7 +177,6 @@
 .dpc-prize-cta {
   display: flex;
   justify-content: center;
-  margin-top: auto;
 }
 
 .dpc-prize-cta__button {

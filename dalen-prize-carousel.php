@@ -249,11 +249,11 @@ class Dalen_Prize_Carousel
                 </div>
             <?php endif; ?>
 
-            <?php if ($prize_image): ?>
-                <div class="dpc-prize-image">
+            <div class="dpc-prize-image">
+                <?php if ($prize_image): ?>
                     <img src="<?php echo esc_url($prize_image['url']); ?>" alt="<?php echo esc_attr($prize_image['alt'] ?: $prize->post_title); ?>" />
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
 
             <div class="dpc-prize-meta">
                 <?php if ($prize_sponsor_name): ?>
